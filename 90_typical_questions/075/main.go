@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 )
@@ -31,20 +32,30 @@ func debug() {
 }
 
 func main() {
-	var n int
+	var n float64
 	scanner.Scan()
-	n, _ = strconv.Atoi(scanner.Text())
+	n, _ = strconv.ParseFloat(scanner.Text(), 64)
 
-	a := make([]int, n)
-	for i := 0; i < n; i++ {
-		scanner.Scan()
-		a[i], _ = strconv.Atoi(scanner.Text())
-	}
-
-	for _, v := range a {
-		if v%2 == 0 {
-			fmt.Printf("%d ", v)
+	var a float64 = 2
+	count := 0
+	for math.Pow(a, 2) <= n {
+		if math.Mod(n, a) == 0 {
+			n /= a
+			count++
+		} else {
+			a++
 		}
 	}
-	fmt.Println()
+
+	if n > 1 { // n が1より大きい場合、素数が残っている
+		count++
+	}
+
+	ans := 0
+	tmp := 1
+	for tmp < count {
+		tmp *= 2
+		ans++
+	}
+	fmt.Println(ans)
 }
